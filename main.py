@@ -17,7 +17,7 @@ model = RandomForestClassifier(n_estimators=100, max_depth=5, random_state=42)
 model.fit(X_train, y_train)
 
 survival_rate_train = train_data["Survived"].mean()
-print("Train veri setinde hayatta kalma yüzdesi:", survival_rate_train)
+print("Estimated percent survival on train dataset:", survival_rate_train)
 
 test_data = pd.read_csv("test.csv")
 
@@ -32,11 +32,11 @@ predictions = model.predict(test_data.drop("PassengerId", axis=1))
 probabilities = model.predict_proba(test_data.drop("PassengerId", axis=1))[:, 1]
 
 survival_rate_test = predictions.mean()
-print("Test veri setinde tahmini hayatta kalma yüzdesi:", survival_rate_test)
+print("Estimated percent survival on test dataset:", survival_rate_test)
 
 output = pd.DataFrame({"PassengerId": test_data["PassengerId"], "Survived": predictions})
 output.to_csv("predictions.csv", index=False)
 
 test_data_with_results = pd.read_csv("gender_submission.csv")
 accuracy = accuracy_score(test_data_with_results["Survived"], predictions)
-print("Modelin doğruluğu:", accuracy)
+print("Model Accuracy:", accuracy)
